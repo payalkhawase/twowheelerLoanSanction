@@ -12,4 +12,7 @@ public class SanctionController {
 
 	@Autowired
 	SanctionServiceI ssi;
+	
+
+	
 }
