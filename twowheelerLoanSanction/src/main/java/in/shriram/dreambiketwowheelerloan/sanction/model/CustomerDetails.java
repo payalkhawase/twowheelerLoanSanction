@@ -2,10 +2,16 @@ package in.shriram.dreambiketwowheelerloan.sanction.model;
 
 import java.util.Date;
 
+import org.hibernate.annotations.Cascade;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -27,5 +33,9 @@ public class CustomerDetails {
    private String modeofPayment="Online";
    private String status;
    
+   @Lob
+   @Column(length=999999999)
+   @OneToOne(cascade = CascadeType.ALL)
+   private byte[] sanctionedletter;
 	
 }
