@@ -33,6 +33,7 @@ public class CustomerDetails {
    private String modeofPayment="Online";
    private String status;
    
+   
    @Lob
    @Column(length=999999999)
    @OneToOne(cascade = CascadeType.ALL)
