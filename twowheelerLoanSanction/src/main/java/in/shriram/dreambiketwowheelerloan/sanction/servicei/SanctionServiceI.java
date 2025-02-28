@@ -6,4 +6,6 @@ public interface SanctionServiceI {
 
 	public CustomerDetails generateSactionId(Integer customerId);
 
+	public CustomerDetails addSanction(Integer customerId);
+
 }

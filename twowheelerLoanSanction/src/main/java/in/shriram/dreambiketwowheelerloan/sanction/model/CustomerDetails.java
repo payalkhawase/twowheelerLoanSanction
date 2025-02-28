@@ -19,8 +19,8 @@ public class CustomerDetails {
    private int sanctionedId;
    private Date date;
    private String applicantname;
-   private Double contactdetails;
-   private String onRoadPrice;
+   private String contactdetails;
+   private double onRoadPrice;
    private double loanAmountScantioned;
    private String interesType;
    private float rateofInterest;

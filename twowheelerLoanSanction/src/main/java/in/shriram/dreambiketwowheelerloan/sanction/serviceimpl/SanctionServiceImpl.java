@@ -12,6 +12,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
@@ -27,6 +28,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
@@ -41,6 +43,9 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	@Autowired
 	JavaMailSender sender;
 
+	@Autowired
+	RestTemplate rt;
+	
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
@@ -188,6 +193,65 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		
 		//return null;
+	}
+
+	@Override
+	public CustomerDetails addSanction(Integer customerId) {
+		// TODO Auto-generated method stub
+		
+		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
+		CustomerDetails cDetails = new CustomerDetails();
+		
+		cDetails.setApplicantname(co.getCustomerName());
+		cDetails.setContactdetails(co.getCustomerMobileNumber());
+		cDetails.setDate(new Date());
+		//cDetails.setInteresType("");
+		cDetails.setOnRoadPrice(co.getOnRoadPrice());
+		cDetails.setLoanTenureMonth(co.getRequiredTenure());
+		
+		cDetails.setInteresType("Compound Interest");
+		
+		//LOGIC FOR LOAN TENURE (IN MONTHS)
+				if(co.getOnRoadPrice()>=50000) {
+					cDetails.setLoanTenureMonth(12);
+				}
+				else if(co.getOnRoadPrice()>=100000) {
+					cDetails.setLoanTenureMonth(24);
+				}
+				else if(co.getOnRoadPrice()>=150000) {
+					cDetails.setLoanTenureMonth(36);
+				}
+				else {
+					cDetails.setLoanTenureMonth(48);
+				}
+				
+		//LOGIC FOR RATE OF INTEREST
+				if(co.getCibil().getCibilRemark().equals("Good")) {
+					cDetails.setRateofInterest(10.2f);
+				}
+				else if(co.getCibil().getCibilRemark().equals("Very Good")) {
+					cDetails.setRateofInterest(9.1f);
+				}
+				else if(co.getCibil().getCibilRemark().equals("Excellent")) {
+					cDetails.setRateofInterest(7.9f);
+				}		
+		
+		//SANCTIONED LOAN AMOUNT WILL BE 80% OF ON ROAD PRICE
+				cDetails.setLoanAmountScantioned(0.8*co.getOnRoadPrice());	//Check input of onRoadPrice
+				
+		//Logic for Compound Interest Calculation
+				int compoundingFrequency=12;
+				double totalAmountPayable=cDetails.getLoanAmountScantioned()*Math.pow(1+(cDetails.getRateofInterest()/compoundingFrequency),
+						compoundingFrequency*cDetails.getLoanTenureMonth());
+				
+				
+		//Logic for EMI		
+				double emi=totalAmountPayable/cDetails.getLoanTenureMonth();
+		
+		cDetails.setMonthlyEmiAmount(emi);		
+
+		
+		return cDetails;
 	}
 
 	
