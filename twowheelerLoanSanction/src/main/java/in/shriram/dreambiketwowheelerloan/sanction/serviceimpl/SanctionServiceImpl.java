@@ -55,6 +55,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		CustomerDetails customer = sr.findById(customerId).get();
 		
+		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
+		
 		String title = "Shriram Finance Ltd.";
 
 		Document document = new Document(PageSize.A4);
@@ -163,7 +165,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		try {
 			MimeMessageHelper mimemessageHelper = new MimeMessageHelper(mimemessage, true);
 			mimemessageHelper.setFrom(fromEmail);
-			mimemessageHelper.setTo("srjp90@gmail.com");
+			mimemessageHelper.setTo(co.getCustomerEmail());
 			mimemessageHelper.setSubject("Shriram Finance Ltd. Sanction Letter");
 			String text = "Dear " + customer.getApplicantname()
 					+ ",\n" + "\n"
@@ -186,13 +188,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 			e.printStackTrace();
 		}
 		
-		
-		
 		return sr.save(customer);
 		
-		
-		
-		//return null;
 	}
 
 	@Override
@@ -249,9 +246,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				double emi=totalAmountPayable/cDetails.getLoanTenureMonth();
 		
 		cDetails.setMonthlyEmiAmount(emi);		
-
 		
-		return cDetails;
+		return sr.save(cDetails);
 	}
 
 	
