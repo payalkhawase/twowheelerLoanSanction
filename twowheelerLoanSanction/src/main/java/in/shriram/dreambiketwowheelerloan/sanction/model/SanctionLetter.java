@@ -26,7 +26,7 @@ public class SanctionLetter {
 	private int loanTenureInMonth;
 	private double monthlyEmiAmount;
 	private String modeOfPayment;
-	 private double onRoadPrice;
+	private double onRoadPrice;
 	private String status;
 
 	@Lob
