@@ -1,5 +1,6 @@
 package in.shriram.dreambiketwowheelerloan.sanction.model;
 
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,9 +33,9 @@ public class Customer {
 	private int requiredTenure;
 	private String interesType="Compound Interest";
 	
-	@OneToOne(cascade = CascadeType.MERGE ,orphanRemoval = false)
-	@JoinColumn(name = "cibilId")
+	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;
 
-	
+	@OneToOne(cascade = CascadeType.ALL)
+	private SanctionLetter sanctionletter;
 }

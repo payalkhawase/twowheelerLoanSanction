@@ -1,11 +1,13 @@
 package in.shriram.dreambiketwowheelerloan.sanction.servicei;
 
-import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
+
+import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
+
 
 public interface SanctionServiceI {
 
-	public CustomerDetails generateSactionId(Integer customerId);
+	public SanctionLetter generateSactionId(Integer customerId);
 
-	public CustomerDetails addSanction(Integer customerId);
+	public SanctionLetter addSanction(Integer customerId);
 
 }
