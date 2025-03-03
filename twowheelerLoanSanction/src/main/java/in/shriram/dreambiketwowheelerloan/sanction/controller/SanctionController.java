@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
@@ -43,11 +44,11 @@ public class SanctionController {
 		return ssi.addSanction(customerId);
 	}
 	
-	@PutMapping("updateSanctionStatus/{sanctionId}/{status}")
-	public ResponseEntity<SanctionLetter> updateSanctionStatus(@PathVariable("sanctionId") int sanctionId,
-			@PathVariable("status") String status){
-		
-		SanctionLetter sl=ssi.updateSanctionStatus(sanctionId,status);
-		return null;
-	}
+//	@PutMapping("updateSanctionStatus/{customerId}/{status}")
+//	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
+//			@PathVariable("status") String status){
+//		
+//		Customer sl=ssi.updateSanctionStatus(customerId,status);
+//		return null;
+//	}
 }
