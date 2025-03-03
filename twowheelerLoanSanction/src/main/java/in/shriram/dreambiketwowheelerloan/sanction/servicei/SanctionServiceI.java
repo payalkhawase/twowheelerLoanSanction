@@ -12,4 +12,6 @@ public interface SanctionServiceI {
 
 	public SanctionLetter addSanction(Integer customerId);
 
+	public SanctionLetter updateSanctionStatus(int sanctionId, String status);
+
 }

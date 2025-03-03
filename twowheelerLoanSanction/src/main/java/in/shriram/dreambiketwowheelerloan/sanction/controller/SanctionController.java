@@ -43,4 +43,11 @@ public class SanctionController {
 		return ssi.addSanction(customerId);
 	}
 	
+	@PutMapping("updateSanctionStatus/{sanctionId}/{status}")
+	public ResponseEntity<SanctionLetter> updateSanctionStatus(@PathVariable("sanctionId") int sanctionId,
+			@PathVariable("status") String status){
+		
+		SanctionLetter sl=ssi.updateSanctionStatus(sanctionId,status);
+		return null;
+	}
 }

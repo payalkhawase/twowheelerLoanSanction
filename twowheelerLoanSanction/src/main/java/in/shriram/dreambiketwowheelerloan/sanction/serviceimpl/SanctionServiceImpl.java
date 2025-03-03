@@ -305,7 +305,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 				System.out.println(emi);
 				
-		cDetails.setMonthlyEmiAmount(emi);		
+		cDetails.setMonthlyEmiAmount(emi);	
 		
 		SanctionLetter so = sr.save(cDetails);
 		
@@ -314,6 +314,12 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		rt.put("http://localhost:7777/apploan/upadtedata",co);
 		
 		return so;
+	}
+
+	@Override
+	public SanctionLetter updateSanctionStatus(int sanctionId, String status) {
+		SanctionLetter sl=rt.getForObject(null, null)
+		return null;
 	}
 
 	
