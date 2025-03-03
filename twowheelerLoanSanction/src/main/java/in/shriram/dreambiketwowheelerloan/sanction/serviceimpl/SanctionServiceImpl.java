@@ -21,27 +21,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 	
 
-	@Override
-	public CustomerDetails getVerifiedCustomer(int customerId, String loanStatus) {
-		
-		if(customerId > 0  && loanStatus.equals("verified")) {
-			
-		CustomerDetails	cd = rt.getForObject("http://localhost:7777/apploan/getCustomer/"+customerId+"/"+loanStatus, CustomerDetails.class); 
-					
-		cd.getDate();
 	
-	cd.getApplicantname();
-	cd.setContactdetails();//auto
-	cd.setOnRoadPrice();//user/service
-	cd.getLoanAmountScantioned();// cm/s.
-	cd.getInteresType();//auto
-	cd.getRateofInterest();//cibil
-	cd.getLoanTenureMonth();//user/cm
-	cd.getMonthlyEmiAmount();//cm
-	cd.setStatus();//cm
-	}
-		return null;
-	
-	}
 	
 }

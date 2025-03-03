@@ -8,6 +8,6 @@ public interface SanctionServiceI {
 
 
 
-public CustomerDetails getVerifiedCustomer(int customerId, String loanStatus);
+
 
 }

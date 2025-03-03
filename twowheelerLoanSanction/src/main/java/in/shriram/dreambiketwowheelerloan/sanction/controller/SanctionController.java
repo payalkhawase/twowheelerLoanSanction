@@ -22,11 +22,6 @@ public class SanctionController {
 	
 
 	
-	@PostMapping("/getVerifiedCustomer/{customerId}/{loanStatus}")
-    public ResponseEntity<CustomerDetails> getVerifiedCustomer(@PathVariable("customerId") int customerId,@PathVariable("loanStatus") String loanStatus)
-	{
-		CustomerDetails cd= ssi.getVerifiedCustomer(customerId,loanStatus);
-	return new ResponseEntity<CustomerDetails>(cd,HttpStatus.OK);
-    }
+	
 	
 }
