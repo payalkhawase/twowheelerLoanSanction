@@ -214,7 +214,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		byte[] bytes = byt.readAllBytes();
 		sanction.setSanctionletterpdf(bytes);;
 
-		
+		sanction.setStatus("Offered");
 		
 		MimeMessage mimemessage = sender.createMimeMessage();
 		
@@ -262,6 +262,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		cDetails.setSanctionDate(new Date());
 		cDetails.setOnRoadPrice(co.getOnRoadPrice());
 		cDetails.setLoanTenureInMonth(co.getRequiredTenure());
+		cDetails.setModeOfPayment("Online");
 		
 		cDetails.setInterestType("Compound Interest");
 		
@@ -306,6 +307,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				System.out.println(emi);
 				
 		cDetails.setMonthlyEmiAmount(emi);	
+		
+		cDetails.setStatus("Created"); 
 		
 		SanctionLetter so = sr.save(cDetails);
 		
