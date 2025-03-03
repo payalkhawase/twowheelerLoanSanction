@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -256,6 +257,13 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		rt.put("http://localhost:7777/apploan/upadtedata",co);
 		
 		return so;
+	}
+
+	@Override
+	public List<SanctionLetter> ShowsanctionCustomer() {
+    List sl=sr.findBySanctionCustomer("Sanctioned");
+		
+		return  sl;
 	}
 
 	
