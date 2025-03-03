@@ -250,7 +250,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				
 		cDetails.setMonthlyEmiAmount(emi);		
 		
-		cDetails.setStatus("Created");
+		cDetails.setStatus("Created"); 
 		
 		SanctionLetter so = sr.save(cDetails);
 		
