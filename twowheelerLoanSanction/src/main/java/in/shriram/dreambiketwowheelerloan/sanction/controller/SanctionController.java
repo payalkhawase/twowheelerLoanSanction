@@ -21,13 +21,12 @@ public class SanctionController {
 	SanctionServiceI ssi;
 	
 
-	@PostMapping("/createSanction/{customerId}")
-	public ResponseEntity<List<CustomerDetails>> createSanction(@PathVariable("customerId") int customerId){
-		
-		CustomerDetails cd = ssi.createSanction(customerId);
-		
-		return new ResponseEntity<List<CustomerDetails>>(HttpStatus.OK);
-		
-	}
+	
+	@PostMapping("/getVerifiedCustomer/{customerId}/{loanStatus}")
+    public ResponseEntity<CustomerDetails> getVerifiedCustomer(@PathVariable("customerId") int customerId,@PathVariable("loanStatus") String loanStatus)
+	{
+		CustomerDetails cd= ssi.getVerifiedCustomer(customerId,loanStatus);
+	return new ResponseEntity<CustomerDetails>(cd,HttpStatus.OK);
+    }
 	
 }
