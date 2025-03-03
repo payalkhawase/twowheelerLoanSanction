@@ -7,10 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
+import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
 
 @RestController
@@ -21,6 +27,17 @@ public class SanctionController {
 	SanctionServiceI ssi;
 	
 
+	@PutMapping("/generatePdf/{customerId}")
+	public SanctionLetter updateSactionLetter(@PathVariable("customerId") Integer customerId) {
+
+			return ssi.generateSactionId(customerId);
+	}
+	
+	@PostMapping("/addSanction/{customerId}")
+	public SanctionLetter addSanction(@PathVariable("customerId") Integer customerId)
+	{
+		return ssi.addSanction(customerId);
+	}
 	
 	
 	
