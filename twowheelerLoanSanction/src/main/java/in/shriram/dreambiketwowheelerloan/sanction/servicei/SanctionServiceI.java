@@ -6,8 +6,8 @@ import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 
 public interface SanctionServiceI {
 
-	public SanctionLetter generateSactionId(Integer customerId);
+	public SanctionLetter generateSactionId(int customerId);
 
-	public SanctionLetter addSanction(Integer customerId);
+	public SanctionLetter addSanction(int customerId);
 
 }
