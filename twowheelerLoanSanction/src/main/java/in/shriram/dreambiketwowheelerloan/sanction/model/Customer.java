@@ -25,6 +25,7 @@ public class Customer {
 	private String customerEmail;
 	private String password;
 	private String loanStatus="Submit";
+	private String sanctionStatus="Sanctioned";
 	
 	private double onRoadPrice;
 	private int requiredTenure;
