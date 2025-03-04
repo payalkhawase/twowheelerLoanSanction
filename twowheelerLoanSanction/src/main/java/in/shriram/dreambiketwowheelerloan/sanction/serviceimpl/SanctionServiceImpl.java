@@ -2,6 +2,7 @@ package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
 import java.util.Date;
 
+import in.shriram.dreambiketwowheelerloan.sanction.exceptions.IncorrectPasswordException;
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
@@ -33,6 +34,7 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
+import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
 import jakarta.mail.internet.MimeMessage;
@@ -42,6 +44,9 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 	@Autowired
 	SanctionRepository sr;
+	
+	@Autowired
+	CustomerRepository cr;
 
 	@Autowired
 	RestTemplate rt;
@@ -326,14 +331,29 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return so;
 	}
 
-//	@Override
-//	public Customer updateSanctionStatus(int customerId, String status) {
-//		
-//		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
-//		cust.setSanctionStatus(status);
-//		
-//		return sr.save(cust);
-//	}
+	@Override
+	public Customer updateSanctionStatus(int customerId, String status) {
+		
+		
+		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+		cust.setLoanStatus(status);
+		
+		return cr.save(cust);
+	}
+
+	@Override
+	public Customer userLogin(int customerId, String password) {
+
+		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+		
+		if(cust.getPassword().equals(password)) {
+			
+			return cust;
+		}
+		else {
+			throw new IncorrectPasswordException("Sorry, your password does not match!");
+		}
+	}
 
 	
 

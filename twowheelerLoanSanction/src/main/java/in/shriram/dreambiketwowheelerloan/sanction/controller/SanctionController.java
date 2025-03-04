@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
@@ -22,6 +23,9 @@ public class SanctionController {
 
 	@Autowired
 	SanctionServiceI ssi;
+	
+	@Autowired
+	RestTemplate rt;
 	
 //	@PutMapping("/generateEmi/{customerId}")
 //	public ResponseEntity<CustomerDetails> generateEmi(@PathVariable("customerId") int customerId){
@@ -44,11 +48,25 @@ public class SanctionController {
 		return ssi.addSanction(customerId);
 	}
 	
-//	@PutMapping("updateSanctionStatus/{customerId}/{status}")
-//	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
-//			@PathVariable("status") String status){
-//		
-//		Customer sl=ssi.updateSanctionStatus(customerId,status);
-//		return null;
-//	}
+	
+	//UserLogin and AdminLogin API should be in user login and admin login microservice
+	
+	@PutMapping("/userLogin/{customerId}/{password}")
+	public ResponseEntity<Customer> userLogin(@PathVariable("customerId") int customerId,
+			@PathVariable("password") String password){
+		
+		Customer c=ssi.userLogin(customerId,password);
+		return new ResponseEntity<Customer>(c,HttpStatus.OK);
+	}
+	
+	
+	
+	@PutMapping("/updateSanctionStatus/{customerId}/{status}")
+	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
+			@PathVariable("status") String status){
+
+			Customer c=ssi.updateSanctionStatus(customerId,status);
+			return new ResponseEntity<Customer>(c,HttpStatus.OK);
+
+	}
 }

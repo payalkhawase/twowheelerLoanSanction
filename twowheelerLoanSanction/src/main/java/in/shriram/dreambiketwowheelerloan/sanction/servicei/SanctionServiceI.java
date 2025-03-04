@@ -13,6 +13,8 @@ public interface SanctionServiceI {
 
 	public SanctionLetter addSanction(Integer customerId);
 
-//	public Customer updateSanctionStatus(int sanctionId, String status);
+	public Customer updateSanctionStatus(int sanctionId, String status);
+
+	public Customer userLogin(int customerId, String password);
 
 }
