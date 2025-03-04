@@ -30,6 +30,7 @@ public class Customer {
 	private String customerEmail;
 	private String password;
 	private String loanStatus="Submit";
+	private String sanctionStatus="Sanctioned";
 	
 	private double onRoadPrice;
 	private int requiredTenure;
@@ -40,6 +41,10 @@ public class Customer {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
+<<<<<<< HEAD
 
 	
 }
+=======
+}
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
