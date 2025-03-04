@@ -29,11 +29,15 @@ public class Customer {
 	
 	private double onRoadPrice;
 	private int requiredTenure;
-	private String interesType="Compound Interest";
+	private String interesType;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private AccountDetails acdetails;
+	
 }
