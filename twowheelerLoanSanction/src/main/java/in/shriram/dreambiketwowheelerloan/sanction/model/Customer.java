@@ -1,6 +1,8 @@
 package in.shriram.dreambiketwowheelerloan.sanction.model;
 
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -38,5 +40,6 @@ public class Customer {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
+
 	
 }

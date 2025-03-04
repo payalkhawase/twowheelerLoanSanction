@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +14,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -36,13 +36,14 @@ import com.lowagie.text.pdf.PdfWriter;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
+import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
 import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class SanctionServiceImpl implements SanctionServiceI{
-
+	
 	@Autowired
 	SanctionRepository sr;
 	
@@ -265,6 +266,15 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return so;
 	}
 
+	@Override
+	public List<Customer> getAllCustomer(String loanStatus) {
+		
+		Customer co = rt.getForObject("http://localhost:7777/apploan/getaCustomer" +loanStatus, Customer.class);
+		
+		return  ((ListCrudRepository<Customer, Integer>) co).findAll();
+	}
+
+	
 	
 	
 }
