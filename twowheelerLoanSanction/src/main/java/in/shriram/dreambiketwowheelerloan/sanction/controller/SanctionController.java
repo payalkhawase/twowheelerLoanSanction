@@ -1,6 +1,11 @@
 package in.shriram.dreambiketwowheelerloan.sanction.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -31,4 +36,10 @@ public class SanctionController {
 		return ssi.addSanction(customerId);
 	}
 	
+	@GetMapping("/getSanctionList")
+	public ResponseEntity<List> getSanctionList()
+	{
+		List list = ssi.getSanctionList();
+		return new ResponseEntity<List>(list,HttpStatus.OK);
+	}
 }

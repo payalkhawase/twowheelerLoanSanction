@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -261,6 +262,14 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return so;
 	}
 
+	
+	@Override
+	public List getSanctionList() {
+		// TODO Auto-generated method stub
+		return sr.findAllByStatus("Sanctioned");
+	}
+	
+	
 	
 	
 }
