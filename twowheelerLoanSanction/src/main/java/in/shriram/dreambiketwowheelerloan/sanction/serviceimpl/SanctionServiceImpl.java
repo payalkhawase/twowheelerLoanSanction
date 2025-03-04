@@ -1,6 +1,9 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
+import java.util.Date;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
+import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -40,12 +43,12 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 	@Autowired
 	SanctionRepository sr;
-	
-	@Autowired
-	JavaMailSender sender;
 
 	@Autowired
 	RestTemplate rt;
+	
+	@Autowired
+	JavaMailSender sender;
 	
 	@Value("${spring.mail.username}")
 	private String fromEmail;
@@ -78,7 +81,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 		Image img = null;
 		try {
-			img = Image.getInstance("C:\\Users\\sujata\\Pictures\\logo\\twowheel.png");
+			img = Image.getInstance("C:/Users/Admin/Desktop/CJC/bike.png");
 			img.scalePercent(50, 50);
 			img.setAlignment(Element.ALIGN_RIGHT);
 			document.add(img);
@@ -210,18 +213,16 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		cDetails.setInterestType("Compound Interest");
 		
 		//LOGIC FOR LOAN TENURE (IN MONTHS)
-				if(co.getOnRoadPrice()>=50000) {
-					cDetails.setLoanTenureInMonth(12);
-				}
-				else if(co.getOnRoadPrice()>=100000) {
-					cDetails.setLoanTenureInMonth(24);
-				}
-				else if(co.getOnRoadPrice()>=150000) {
-					cDetails.setLoanTenureInMonth(36);
-				}
-				else {
-					cDetails.setLoanTenureInMonth(48);
-				}
+		if (co.getOnRoadPrice() >= 150000) {
+		    cDetails.setLoanTenureInMonth(48);
+		} else if (co.getOnRoadPrice() >= 100000) {
+		    cDetails.setLoanTenureInMonth(36);
+		} else if (co.getOnRoadPrice() >= 50000) {
+		    cDetails.setLoanTenureInMonth(24);
+		} else {
+		    cDetails.setLoanTenureInMonth(12);
+		}
+
 				
 		//LOGIC FOR RATE OF INTEREST
 				if(co.getCibil().getCibilRemark().equals("Good")) {
@@ -238,20 +239,28 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				cDetails.setLoanAmtSanctioned(0.8*co.getOnRoadPrice());	//Check input of onRoadPrice
 				
 		//Logic for Compound Interest Calculation
-				int compoundingFrequency=12;
-				double totalAmountPayable=cDetails.getLoanAmtSanctioned()*Math.pow(1+(cDetails.getRateOfInterest()/compoundingFrequency),
-						compoundingFrequency*cDetails.getLoanTenureInMonth());
-				
-				System.out.println(totalAmountPayable);
+				double rate = cDetails.getRateOfInterest() / 100; // Convert to decimal
+				int compoundingFrequency = 12;
+				double tenureYears = cDetails.getLoanTenureInMonth() / 12.0;
+
+				double totalAmountPayable = cDetails.getLoanAmtSanctioned() *
+				                            Math.pow(1 + (rate / compoundingFrequency),
+				                                     compoundingFrequency * tenureYears);
+
 				
 		//Logic for EMI		
-				Float emi=(float) (totalAmountPayable/cDetails.getLoanTenureInMonth());
+				double monthlyRate = rate / 12; // Monthly interest rate
+				int tenureMonths = cDetails.getLoanTenureInMonth();
+
+				double emi = (cDetails.getLoanAmtSanctioned() * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
+				             (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+
 		
-				System.out.println(emi);
 				
-		cDetails.setMonthlyEmiAmount(emi);		
+		cDetails.setMonthlyEmiAmount(emi);	
 		
 		cDetails.setStatus("Created"); 
+		
 		
 		SanctionLetter so = sr.save(cDetails);
 		
@@ -261,6 +270,17 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		return so;
 	}
+
+//	@Override
+//	public Customer updateSanctionStatus(int customerId, String status) {
+//		
+//		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+//		cust.setSanctionStatus(status);
+//		
+//		return sr.save(cust);
+//	}
+
+	
 
 	
 	@Override
