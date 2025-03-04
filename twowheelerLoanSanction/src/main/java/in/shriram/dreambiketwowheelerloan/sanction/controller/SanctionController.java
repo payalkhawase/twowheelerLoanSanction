@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
+import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
 
@@ -22,6 +24,14 @@ public class SanctionController {
 
 	@Autowired
 	SanctionServiceI ssi;
+	
+//	@PutMapping("/generateEmi/{customerId}")
+//	public ResponseEntity<CustomerDetails> generateEmi(@PathVariable("customerId") int customerId){
+//		
+//		CustomerDetails cust=ssi.addData(customerId);		
+//		
+//		return new ResponseEntity<CustomerDetails>(cust,HttpStatus.OK);
+//	}
 	
 
 	@PutMapping("/generatePdf/{customerId}")
@@ -36,12 +46,21 @@ public class SanctionController {
 		return ssi.addSanction(customerId);
 	}
 	
-	@GetMapping("/getCustomerSanction")
+	/*@GetMapping("/getCustomerSanction")
      public ResponseEntity<List<SanctionLetter>> showsanctionCustomer() {
 		
 		List<SanctionLetter> sl= ssi.ShowsanctionCustomer();
 		
 		return new ResponseEntity<List<SanctionLetter>>(sl, HttpStatus.OK);
 	
-    } 
+    } */
+
+//	@PutMapping("updateSanctionStatus/{customerId}/{status}")
+//	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
+//			@PathVariable("status") String status){
+//		
+//		Customer sl=ssi.updateSanctionStatus(customerId,status);
+//		return null;
+//	}
+
 }
