@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -253,7 +254,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				             (Math.pow(1 + monthlyRate, tenureMonths) - 1);
 
 		
-				System.out.println(emi);
 				
 		cDetails.setMonthlyEmiAmount(emi);	
 		
@@ -282,6 +282,14 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 	
 
+	
+	@Override
+	public List getSanctionList() {
+		// TODO Auto-generated method stub
+		return sr.findAllByStatus("Sanctioned");
+	}
+	
+	
 	
 	
 }
