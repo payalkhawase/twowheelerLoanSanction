@@ -54,7 +54,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	private String fromEmail;
 
 	@Override
-	public SanctionLetter generateSactionId(Integer customerId) {
+	public SanctionLetter generateSactionId(int customerId) {
 		// TODO Auto-generated method stub
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
@@ -197,7 +197,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 	@Override
-	public SanctionLetter addSanction(Integer customerId) {
+	public SanctionLetter addSanction(int customerId) {
 		// TODO Auto-generated method stub
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
