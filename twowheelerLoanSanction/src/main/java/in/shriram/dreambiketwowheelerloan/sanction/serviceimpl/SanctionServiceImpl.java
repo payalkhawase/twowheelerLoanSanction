@@ -288,7 +288,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		return sr.save(cust);
 //	}
 
-	
 	@Override
 	public List getSanctionList() {
 		// TODO Auto-generated method stub
