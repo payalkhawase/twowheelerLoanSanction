@@ -2,7 +2,6 @@ package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
 import java.util.Date;
 
-import in.shriram.dreambiketwowheelerloan.sanction.exceptions.IncorrectPasswordException;
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
@@ -286,19 +285,19 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return cr.save(cust);
 	}
 
-	@Override
-	public Customer userLogin(int customerId, String password) {
-
-		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
-		
-		if(cust.getPassword().equals(password)) {
-			
-			return cust;
-		}
-		else {
-			throw new IncorrectPasswordException("Sorry, your password does not match!");
-		}
-	}
+//	@Override
+//	public Customer userLogin(int customerId, String password) {
+//
+//		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+//		
+//		if(cust.getPassword().equals(password)) {
+//			
+//			return cust;
+//		}
+//		else {
+//			throw new IncorrectPasswordException("Sorry, your password does not match!");
+//		}
+//	}
 
 	
 
@@ -306,7 +305,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	@Override
 	public List getSanctionList() {
 		// TODO Auto-generated method stub
-		return sr.findAllByStatus("Sanctioned");
+		return sr.findAllByStatus("Accepted");
 	}
 	
 	

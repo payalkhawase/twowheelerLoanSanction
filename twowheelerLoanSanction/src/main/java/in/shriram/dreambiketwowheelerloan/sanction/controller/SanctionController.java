@@ -51,15 +51,8 @@ public class SanctionController {
 	}
 	
 	
-	//UserLogin and AdminLogin API should be in user login and admin login microservice
 	
-	@PutMapping("/userLogin/{customerId}/{password}")
-	public ResponseEntity<Customer> userLogin(@PathVariable("customerId") int customerId,
-			@PathVariable("password") String password){
-		
-		Customer c=ssi.userLogin(customerId,password);
-		return new ResponseEntity<Customer>(c,HttpStatus.OK);
-	}
+	
 	
 	
 	

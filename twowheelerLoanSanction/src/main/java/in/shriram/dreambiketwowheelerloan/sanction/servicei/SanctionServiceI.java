@@ -17,7 +17,8 @@ public interface SanctionServiceI {
 
 	public Customer updateSanctionStatus(int sanctionId, String status);
 
-	public Customer userLogin(int customerId, String password);
+//	public Customer userLogin(int customerId, String password);
+	
 	public List getSanctionList();
 
 //	public Customer updateSanctionStatus(int sanctionId, String status);
