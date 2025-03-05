@@ -29,7 +29,7 @@ public class Customer {
 	
 	private double onRoadPrice;
 	private int requiredTenure;
-	private String interesType;
+	private String interesType="Compound Interest";
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cibil cibil;
