@@ -41,10 +41,7 @@ public class Customer {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
-<<<<<<< HEAD
+
 
 	
 }
-=======
-}
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
