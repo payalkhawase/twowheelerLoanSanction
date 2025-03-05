@@ -15,15 +15,15 @@ public interface SanctionServiceI {
 
 	public SanctionLetter addSanction(Integer customerId);
 
-<<<<<<< HEAD
+
 
 	//public List<SanctionLetter> ShowsanctionCustomer();
 
 
-=======
+
 	public List getSanctionList();
 
 //	public Customer updateSanctionStatus(int sanctionId, String status);
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
+
 
 }
