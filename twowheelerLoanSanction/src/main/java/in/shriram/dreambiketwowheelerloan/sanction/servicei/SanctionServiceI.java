@@ -13,7 +13,7 @@ public interface SanctionServiceI {
 
 	public SanctionLetter addSanction(int customerId);
 
-    public List getSanctionList();
+    public SanctionLetter getSanctionList(int customerId);
 
 //	public Customer updateSanctionStatus(int sanctionId, String status);
 
