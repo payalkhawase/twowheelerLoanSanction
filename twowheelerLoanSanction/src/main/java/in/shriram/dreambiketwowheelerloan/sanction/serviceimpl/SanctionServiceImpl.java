@@ -136,7 +136,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 		Image img = null;
 		try {
-			img = Image.getInstance("C:/Users/swapn/Desktop/images");
+			img = Image.getInstance("C:/Users/swapn/Desktop/images/OIP.jpg");
 			img.scalePercent(50, 50);
 			img.setAlignment(Element.ALIGN_RIGHT);
 			document.add(img);
