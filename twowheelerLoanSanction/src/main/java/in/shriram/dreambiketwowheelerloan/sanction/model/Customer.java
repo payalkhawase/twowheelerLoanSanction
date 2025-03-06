@@ -2,6 +2,8 @@ package in.shriram.dreambiketwowheelerloan.sanction.model;
 
 
 
+import java.util.Set;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -66,6 +68,6 @@ public class Customer {
 	private LoanDisbursement loandisburst;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Ledger led;
+	private Set<Ledger> led;
 
 }
