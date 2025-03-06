@@ -1,5 +1,11 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashSet;
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import java.util.Date;
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
-import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
+<<<<<<< HEAD
+=======
+import java.util.List;
+import java.util.Set;
+
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -33,7 +44,11 @@ import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
+<<<<<<< HEAD
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
+=======
+
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
@@ -45,6 +60,9 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	
 	@Autowired
 	SanctionRepository sr;
+	
+	@Autowired
+	CustomerRepository cr;
 
 	@Autowired
 	RestTemplate rt;
@@ -55,6 +73,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
+<<<<<<< HEAD
 //	@Override
 //	public CustomerDetails addData(int cd) {
 //		
@@ -108,9 +127,11 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		return cust;
 //	}
 	
+=======
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 	@Override
-	public SanctionLetter generateSactionId(Integer customerId) {
-		// TODO Auto-generated method stub
+	public SanctionLetter generateSactionId(int customerId) {
+		
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
 		
@@ -136,7 +157,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 		Image img = null;
 		try {
-			img = Image.getInstance("C:/Users/Admin/Desktop/CJC/bike.png");
+			img = Image.getInstance("G:/bike.png");
 			img.scalePercent(50, 50);
 			img.setAlignment(Element.ALIGN_RIGHT);
 			document.add(img);
@@ -252,7 +273,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 	@Override
-	public SanctionLetter addSanction(Integer customerId) {
+	public SanctionLetter addSanction(int customerId) {
 		// TODO Auto-generated method stub
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
@@ -280,54 +301,82 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 				
 		//LOGIC FOR RATE OF INTEREST
-				if(co.getCibil().getCibilRemark().equals("Good")) {
-					cDetails.setRateOfInterest(10.2f);
-				}
-				else if(co.getCibil().getCibilRemark().equals("Very Good")) {
-					cDetails.setRateOfInterest(9.1f);
-				}
-				else if(co.getCibil().getCibilRemark().equals("Excellent")) {
-					cDetails.setRateOfInterest(7.9f);
-				}		
+		if(co.getCibil().getCibilRemark().equals("Good")) {
+			cDetails.setRateOfInterest(10.2f);
+		}
+		else if(co.getCibil().getCibilRemark().equals("Very Good")) {
+			cDetails.setRateOfInterest(9.1f);
+		}
+		else if(co.getCibil().getCibilRemark().equals("Excellent")) {
+			cDetails.setRateOfInterest(7.9f);
+		}		
 		
 		//SANCTIONED LOAN AMOUNT WILL BE 80% OF ON ROAD PRICE
-				cDetails.setLoanAmtSanctioned(0.8*co.getOnRoadPrice());	//Check input of onRoadPrice
+		double loanSanctioned = 0.8 * co.getOnRoadPrice();
+		cDetails.setLoanAmtSanctioned(loanSanctioned);
+
+				    // Convert annual interest rate to monthly rate
+		double rate = cDetails.getRateOfInterest() / 100; // Annual rate to decimal
+		double monthlyRate = rate / 12; // Monthly rate
+		int tenureMonths = cDetails.getLoanTenureInMonth();
+				    
+		double loanBalance = loanSanctioned;
+		double totalInterestPaid = 0.0;
+
+				    // Using LinkedHashSet to store EMI values while maintaining order
+		Set<Double> monthlyEMISet = new LinkedHashSet<>();
+
+				    // Dynamic EMI Calculation (Reducing Balance Method)
+		for (int month = 1; month <= tenureMonths; month++) {
+			double interestForMonth = loanBalance * monthlyRate; // Monthly interest
+			totalInterestPaid += interestForMonth;
+
+				        // Calculate new EMI dynamically
+			int remainingMonths = tenureMonths - month + 1;
+			double emi;
+			if (remainingMonths > 0) {
+				emi = (loanBalance * monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) /
+				                  (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+			} else {
+	            emi = loanBalance; // Last installment to clear balance
+			}
+
+			double principalPaid = emi - interestForMonth;
+	        loanBalance -= principalPaid; // Reduce loan balance
+	        if (loanBalance < 0) loanBalance = 0; // Prevent negative balance
+
+		        monthlyEMISet.add(emi); // Store EMI in Set
+		    }
+
+				    // Set last month's EMI as the final EMI value
+			 cDetails.setMonthlyEmiAmount(loanBalance == 0 ? 0 : ((LinkedHashSet<Double>) monthlyEMISet).toArray(new Double[0])[monthlyEMISet.size() - 1]);
+//				    cDetails.setTotalPayableAmount(loanSanctioned + totalInterestPaid);
+			 cDetails.setStatus("Created");
+
+				    // Store the entire EMI set (optional, modify class to support it)
+				    
+				    //THIS GIVES RECURRING MONTHLY EMI   (need to create field)
+//				    cDetails.setMonthlyEmiSet(monthlyEMISet); 
+
 				
-		//Logic for Compound Interest Calculation
-				double rate = cDetails.getRateOfInterest() / 100; // Convert to decimal
-				int compoundingFrequency = 12;
-				double tenureYears = cDetails.getLoanTenureInMonth() / 12.0;
-
-				double totalAmountPayable = cDetails.getLoanAmtSanctioned() *
-				                            Math.pow(1 + (rate / compoundingFrequency),
-				                                     compoundingFrequency * tenureYears);
-
-				
-		//Logic for EMI		
-				double monthlyRate = rate / 12; // Monthly interest rate
-				int tenureMonths = cDetails.getLoanTenureInMonth();
-
-				double emi = (cDetails.getLoanAmtSanctioned() * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-				             (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+				//NO SUCH FIELD PRESENT
+//				cDetails.setTotalPayableAmount(cDetails.getLoanAmtSanctioned() + totalInterest);
 
 		
-				System.out.println(emi);
-				
-		cDetails.setMonthlyEmiAmount(emi);	
-		
-		cDetails.setStatus("Created"); 
+			 cDetails.setStatus("Created"); 
 		
 		
-		SanctionLetter so = sr.save(cDetails);
+			 SanctionLetter so = sr.save(cDetails);
 		
-		co.setSanctionletter(so);
+			 co.setSanctionletter(so);
 		
-		rt.put("http://localhost:7777/apploan/upadtedata",co);
+			 rt.put("http://localhost:7777/apploan/upadtedata",co);
 		
-		return so;
+			 return so;
 	}
 
 	@Override
+<<<<<<< HEAD
 	public List<Customer> getAllCustomer(String loanStatus) {
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getaCustomer" +loanStatus, Customer.class);
@@ -335,6 +384,26 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return  ((ListCrudRepository<Customer, Integer>) co).findAll();
 	}
 
+=======
+	public Customer updateSanctionStatus(int customerId, String status) {
+		
+		
+		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+		cust.setLoanStatus(status);
+		
+		return cr.save(cust);
+	}
+
+	 
+	@Override
+	public List getSanctionList() {
+		// TODO Auto-generated method stub
+		return sr.findAllByStatus("Offered");
+	}
+
+
+	
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 
 //	@Override
 //	public Customer updateSanctionStatus(int customerId, String status) {
@@ -344,6 +413,16 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		
 //		return sr.save(cust);
 //	}
+<<<<<<< HEAD
+=======
+
+	
+
+	 
+>>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 	
 	
+	
+	
+
 }
