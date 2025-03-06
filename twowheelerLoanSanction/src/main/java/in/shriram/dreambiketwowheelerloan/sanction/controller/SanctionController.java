@@ -38,12 +38,6 @@ public class SanctionController {
 	}
 	
 
-	@GetMapping("/getSanctionList/{sanctionId}")
-	public ResponseEntity<SanctionLetter> getSanctionList(@PathVariable("sanctionId") int sanctionId)
-	{
-		SanctionLetter list = ssi.getSanctionList(sanctionId);
-		return new ResponseEntity<SanctionLetter>(list,HttpStatus.OK);
-	}
 
 //	@PutMapping("updateSanctionStatus/{customerId}/{status}")
 //	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,

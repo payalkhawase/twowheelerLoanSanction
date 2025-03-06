@@ -283,11 +283,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	
 
 	 
-	@Override
-	public SanctionLetter getSanctionList(int sanctionId) {
-		
-		return sr.findAllBySanctionIdAndStatus(sanctionId,"Sanctioned");
-	}
 	
 	
 	
