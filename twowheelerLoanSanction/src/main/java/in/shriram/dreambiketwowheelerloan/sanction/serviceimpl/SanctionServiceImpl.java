@@ -108,8 +108,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		return cust;
 //	}
 	
-	
-
 	@Override
 	public SanctionLetter generateSactionId(Integer customerId) {
 		// TODO Auto-generated method stub
@@ -337,7 +335,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return  ((ListCrudRepository<Customer, Integer>) co).findAll();
 	}
 
-	
 
 //	@Override
 //	public Customer updateSanctionStatus(int customerId, String status) {
