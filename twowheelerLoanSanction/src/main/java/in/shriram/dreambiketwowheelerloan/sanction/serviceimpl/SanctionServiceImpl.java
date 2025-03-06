@@ -317,9 +317,11 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	 
 	@Override
 	public List getSanctionList() {
-		// TODO Auto-generated method stub
+		
 		return sr.findAllByStatus("Offered");
 	}
+
+	
 
 
 	
