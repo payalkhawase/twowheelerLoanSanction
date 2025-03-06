@@ -1,6 +1,8 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
@@ -9,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -229,50 +232,78 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 				
 		//LOGIC FOR RATE OF INTEREST
-				if(co.getCibil().getCibilRemark().equals("Good")) {
-					cDetails.setRateOfInterest(10.2f);
-				}
-				else if(co.getCibil().getCibilRemark().equals("Very Good")) {
-					cDetails.setRateOfInterest(9.1f);
-				}
-				else if(co.getCibil().getCibilRemark().equals("Excellent")) {
-					cDetails.setRateOfInterest(7.9f);
-				}		
+		if(co.getCibil().getCibilRemark().equals("Good")) {
+			cDetails.setRateOfInterest(10.2f);
+		}
+		else if(co.getCibil().getCibilRemark().equals("Very Good")) {
+			cDetails.setRateOfInterest(9.1f);
+		}
+		else if(co.getCibil().getCibilRemark().equals("Excellent")) {
+			cDetails.setRateOfInterest(7.9f);
+		}		
 		
 		//SANCTIONED LOAN AMOUNT WILL BE 80% OF ON ROAD PRICE
-				cDetails.setLoanAmtSanctioned(0.8*co.getOnRoadPrice());	//Check input of onRoadPrice
+		double loanSanctioned = 0.8 * co.getOnRoadPrice();
+		cDetails.setLoanAmtSanctioned(loanSanctioned);
+
+				    // Convert annual interest rate to monthly rate
+		double rate = cDetails.getRateOfInterest() / 100; // Annual rate to decimal
+		double monthlyRate = rate / 12; // Monthly rate
+		int tenureMonths = cDetails.getLoanTenureInMonth();
+				    
+		double loanBalance = loanSanctioned;
+		double totalInterestPaid = 0.0;
+
+				    // Using LinkedHashSet to store EMI values while maintaining order
+		Set<Double> monthlyEMISet = new LinkedHashSet<>();
+
+				    // Dynamic EMI Calculation (Reducing Balance Method)
+		for (int month = 1; month <= tenureMonths; month++) {
+			double interestForMonth = loanBalance * monthlyRate; // Monthly interest
+			totalInterestPaid += interestForMonth;
+
+				        // Calculate new EMI dynamically
+			int remainingMonths = tenureMonths - month + 1;
+			double emi;
+			if (remainingMonths > 0) {
+				emi = (loanBalance * monthlyRate * Math.pow(1 + monthlyRate, remainingMonths)) /
+				                  (Math.pow(1 + monthlyRate, remainingMonths) - 1);
+			} else {
+	            emi = loanBalance; // Last installment to clear balance
+			}
+
+			double principalPaid = emi - interestForMonth;
+	        loanBalance -= principalPaid; // Reduce loan balance
+	        if (loanBalance < 0) loanBalance = 0; // Prevent negative balance
+
+		        monthlyEMISet.add(emi); // Store EMI in Set
+		    }
+
+				    // Set last month's EMI as the final EMI value
+			 cDetails.setMonthlyEmiAmount(loanBalance == 0 ? 0 : ((LinkedHashSet<Double>) monthlyEMISet).toArray(new Double[0])[monthlyEMISet.size() - 1]);
+//				    cDetails.setTotalPayableAmount(loanSanctioned + totalInterestPaid);
+			 cDetails.setStatus("Created");
+
+				    // Store the entire EMI set (optional, modify class to support it)
+				    
+				    //THIS GIVES RECURRING MONTHLY EMI   (need to create field)
+//				    cDetails.setMonthlyEmiSet(monthlyEMISet); 
+
 				
-		//Logic for Compound Interest Calculation
-				double rate = cDetails.getRateOfInterest() / 100; // Convert to decimal
-				int compoundingFrequency = 12;
-				double tenureYears = cDetails.getLoanTenureInMonth() / 12.0;
-
-				double totalAmountPayable = cDetails.getLoanAmtSanctioned() *
-				                            Math.pow(1 + (rate / compoundingFrequency),
-				                                     compoundingFrequency * tenureYears);
-
-				
-		//Logic for EMI		
-				double monthlyRate = rate / 12; // Monthly interest rate
-				int tenureMonths = cDetails.getLoanTenureInMonth();
-
-				double emi = (cDetails.getLoanAmtSanctioned() * monthlyRate * Math.pow(1 + monthlyRate, tenureMonths)) /
-				             (Math.pow(1 + monthlyRate, tenureMonths) - 1);
+				//NO SUCH FIELD PRESENT
+//				cDetails.setTotalPayableAmount(cDetails.getLoanAmtSanctioned() + totalInterest);
 
 		
-				
-		cDetails.setMonthlyEmiAmount(emi);	
-		
-		cDetails.setStatus("Created"); 
+			 cDetails.setStatus("Created"); 
 		
 		
-		SanctionLetter so = sr.save(cDetails);
+			 SanctionLetter so = sr.save(cDetails);
 		
-		co.setSanctionletter(so);
+			 co.setSanctionletter(so);
 		
-		rt.put("http://localhost:7777/apploan/upadtedata",co);
+			 rt.put("http://localhost:7777/apploan/upadtedata",co);
 		
-		return so;
+			 return so;
 	}
 
 	@Override
@@ -285,30 +316,11 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return cr.save(cust);
 	}
 
-//	@Override
-//	public Customer userLogin(int customerId, String password) {
-//
-//		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
-//		
-//		if(cust.getPassword().equals(password)) {
-//			
-//			return cust;
-//		}
-//		else {
-//			throw new IncorrectPasswordException("Sorry, your password does not match!");
-//		}
-//	}
-
-	
-
 	 
 	@Override
 	public List getSanctionList() {
 		// TODO Auto-generated method stub
-		return sr.findAllByStatus("Accepted");
+		return sr.findAllByStatus("Offered");
 	}
-	
-	
-	
-	
+
 }

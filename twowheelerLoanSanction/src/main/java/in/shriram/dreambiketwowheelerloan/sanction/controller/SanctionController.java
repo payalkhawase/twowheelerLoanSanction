@@ -51,11 +51,6 @@ public class SanctionController {
 	}
 	
 	
-	
-	
-	
-	
-	
 	@PutMapping("/updateSanctionStatus/{customerId}/{status}")
 	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
 			@PathVariable("status") String status){
@@ -64,6 +59,9 @@ public class SanctionController {
 			return new ResponseEntity<Customer>(c,HttpStatus.OK);
 
 	}
+	
+	
+
 
 	@GetMapping("/getSanctionList")
 	public ResponseEntity<List> getSanctionList()
@@ -72,12 +70,6 @@ public class SanctionController {
 		return new ResponseEntity<List>(list,HttpStatus.OK);
 	}
 
-//	@PutMapping("updateSanctionStatus/{customerId}/{status}")
-//	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
-//			@PathVariable("status") String status){
-//		
-//		Customer sl=ssi.updateSanctionStatus(customerId,status);
-//		return null;
-//	}
+	
 
 }

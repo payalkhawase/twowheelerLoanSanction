@@ -14,13 +14,10 @@ public interface SanctionServiceI {
 	public SanctionLetter generateSactionId(Integer customerId);
 
 	public SanctionLetter addSanction(Integer customerId);
-
-	public Customer updateSanctionStatus(int sanctionId, String status);
-
-//	public Customer userLogin(int customerId, String password);
 	
 	public List getSanctionList();
 
-//	public Customer updateSanctionStatus(int sanctionId, String status);
+	public Customer updateSanctionStatus(int customerId, String status);
+
 
 }
