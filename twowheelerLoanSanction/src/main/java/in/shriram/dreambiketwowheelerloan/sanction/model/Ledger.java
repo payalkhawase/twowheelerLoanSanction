@@ -9,7 +9,7 @@ import lombok.Data;
 @Entity
 @Data
 public class Ledger {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int ledgerId;
@@ -30,3 +30,5 @@ public class Ledger {
 
 
 }
+
+

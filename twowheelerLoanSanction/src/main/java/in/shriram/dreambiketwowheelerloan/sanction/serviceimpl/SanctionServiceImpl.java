@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
-import in.shriram.dreambiketwowheelerloan.sanction.model.CustomerDetails;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -35,7 +34,6 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
-import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
@@ -61,8 +59,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	private String fromEmail;
 
 	@Override
-	public SanctionLetter generateSactionId(Integer customerId) {
-		// TODO Auto-generated method stub
+	public SanctionLetter generateSactionId(int customerId) {
+		
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
 		
@@ -88,7 +86,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 		Image img = null;
 		try {
-			img = Image.getInstance("C:/Users/Admin/Desktop/CJC/bike.png");
+			img = Image.getInstance("G:/bike.png");
 			img.scalePercent(50, 50);
 			img.setAlignment(Element.ALIGN_RIGHT);
 			document.add(img);
@@ -204,7 +202,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 	@Override
-	public SanctionLetter addSanction(Integer customerId) {
+	public SanctionLetter addSanction(int customerId) {
 		// TODO Auto-generated method stub
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getCustomerVerified/"+customerId, Customer.class);
@@ -322,5 +320,25 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		// TODO Auto-generated method stub
 		return sr.findAllByStatus("Offered");
 	}
+
+
+	
+
+//	@Override
+//	public Customer updateSanctionStatus(int customerId, String status) {
+//		
+//		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+//		cust.setSanctionStatus(status);
+//		
+//		return sr.save(cust);
+//	}
+
+	
+
+	 
+	
+	
+	
+	
 
 }
