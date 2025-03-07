@@ -22,7 +22,6 @@ public class Customer {
 	private String customerDateOfBirth;
 	private int customerAge;
 	private String customerGender;
-
 	private String customerMobileNumber;
 	private double customerAdditionalMobileNumber;
 	private double customerAmountPaidForHome;
@@ -31,20 +30,14 @@ public class Customer {
 	private String password;
 	private String loanStatus="Submit";
 	private String sanctionStatus="Sanctioned";
-	
 	private double onRoadPrice;
 	private int requiredTenure;
 	private String interesType="Compound Interest";
-	
 
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
 
-
-<<<<<<< HEAD
-	
-}
-=======
 	@OneToOne(cascade = CascadeType.MERGE ,orphanRemoval = false)
 	@JoinColumn(name = "cibilId")
 	private Cibil cibil;
@@ -75,4 +68,3 @@ public class Customer {
 	private Set<Ledger> led;
 
 }
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git

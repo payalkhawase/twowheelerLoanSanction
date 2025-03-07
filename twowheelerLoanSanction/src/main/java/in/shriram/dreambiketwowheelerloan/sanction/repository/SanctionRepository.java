@@ -13,5 +13,7 @@ import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 @Repository
 public interface SanctionRepository extends JpaRepository<SanctionLetter, Integer>{
 
+	List findAllByStatus(String string);
+
 
 }

@@ -1,12 +1,8 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashSet;
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Date;
-<<<<<<< HEAD
-=======
 import java.util.List;
 import java.util.Set;
-
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
@@ -44,11 +36,7 @@ import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-<<<<<<< HEAD
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
-=======
-
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
@@ -73,7 +61,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
-<<<<<<< HEAD
 //	@Override
 //	public CustomerDetails addData(int cd) {
 //		
@@ -127,8 +114,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		return cust;
 //	}
 	
-=======
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
 	@Override
 	public SanctionLetter generateSactionId(int customerId) {
 		
@@ -376,7 +361,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 	@Override
-<<<<<<< HEAD
 	public List<Customer> getAllCustomer(String loanStatus) {
 		
 		Customer co = rt.getForObject("http://localhost:7777/apploan/getaCustomer" +loanStatus, Customer.class);
@@ -384,11 +368,10 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return  ((ListCrudRepository<Customer, Integer>) co).findAll();
 	}
 
-=======
 	public Customer updateSanctionStatus(int customerId, String status) {
 		
-		
 		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+		
 		cust.setLoanStatus(status);
 		
 		return cr.save(cust);
@@ -397,13 +380,17 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	 
 	@Override
 	public List getSanctionList() {
-		// TODO Auto-generated method stub
+
 		return sr.findAllByStatus("Offered");
 	}
 
+	@Override
+	public SanctionLetter addSanction(Integer customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-	
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
+
 
 //	@Override
 //	public Customer updateSanctionStatus(int customerId, String status) {
@@ -413,16 +400,5 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		
 //		return sr.save(cust);
 //	}
-<<<<<<< HEAD
-=======
-
-	
-
-	 
->>>>>>> branch 'main' of https://github.com/payalkhawase/twowheelerLoanSanction.git
-	
-	
-	
-	
 
 }
