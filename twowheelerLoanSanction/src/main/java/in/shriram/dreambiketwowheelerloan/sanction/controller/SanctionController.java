@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.servicei.SanctionServiceI;
 
@@ -52,7 +53,7 @@ public class SanctionController {
 		
 	}
 	
-	
+	//status=Accepted
 	@PutMapping("/updateSanctionStatus/{customerId}/{status}")
 	public ResponseEntity<Customer> updateSanctionStatus(@PathVariable("customerId") int customerId,
 			@PathVariable("status") String status){

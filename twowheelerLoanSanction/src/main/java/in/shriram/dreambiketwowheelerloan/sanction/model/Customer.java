@@ -22,16 +22,13 @@ public class Customer {
 	private String customerDateOfBirth;
 	private int customerAge;
 	private String customerGender;
-
 	private String customerMobileNumber;
 	private double customerAdditionalMobileNumber;
-	private double customerAmountPaidForHome;
+	private double customerAmountPaidForBike;
 	private double customerTotalLoanRequired;
 	private String customerEmail;
 	private String password;
 	private String loanStatus="Submit";
-	private String sanctionStatus="Sanctioned";
-	
 	private double onRoadPrice;
 	private int requiredTenure;
 	private String interesType="Compound Interest";
