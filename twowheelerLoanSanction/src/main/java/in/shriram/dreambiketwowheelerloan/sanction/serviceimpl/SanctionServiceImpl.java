@@ -320,7 +320,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		}else {
 			cust.setLoanStatus("Not Sanctioned");
 		}
-		
+		rt.put("http://localhost:7777/apploan/upadtedata",cust);
 		sr.save(sl);
 		return cr.save(cust);
 	}
