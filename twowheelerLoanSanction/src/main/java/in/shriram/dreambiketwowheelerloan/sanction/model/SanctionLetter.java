@@ -32,7 +32,7 @@ public class SanctionLetter {
 	private String status;
 
 	@Lob
-	@Column(length = 999999999)
+	@Column(length = 1000)
 	private byte[] sanctionletterpdf; 
 
 }

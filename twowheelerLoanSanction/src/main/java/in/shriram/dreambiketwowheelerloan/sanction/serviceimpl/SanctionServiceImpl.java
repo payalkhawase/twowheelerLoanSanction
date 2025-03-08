@@ -285,6 +285,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				    // Store the entire EMI set (optional, modify class to support it)
 				    
 				    //THIS GIVES RECURRING MONTHLY EMI   (need to create field)
+			 
 //				    cDetails.setMonthlyEmiSet(monthlyEMISet); 
 
 				
@@ -310,7 +311,8 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
 		cust.setLoanStatus(status);
-		
+		SanctionLetter s=new SanctionLetter();
+		s.setStatus("Accepted");
 		return cr.save(cust);
 	}
 
