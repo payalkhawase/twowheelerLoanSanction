@@ -310,9 +310,18 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		
 		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
-		cust.setLoanStatus(status);
-		SanctionLetter s=new SanctionLetter();
-		s.setStatus("Accepted");
+		
+		SanctionLetter sl=sr.findById(cust.getSanctionletter().getSanctionId()).get();
+		sl.setStatus(status);
+		
+		if(status.equals("Accepted")) {
+			
+			cust.setLoanStatus("Sanctioned");
+		}else {
+			cust.setLoanStatus("Not Sanctioned");
+		}
+		
+		sr.save(sl);
 		return cr.save(cust);
 	}
 
