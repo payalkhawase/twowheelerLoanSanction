@@ -314,14 +314,15 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		SanctionLetter sl=sr.findById(cust.getSanctionletter().getSanctionId()).get();
 		sl.setStatus(status);
 		
-		if(status.equals("Accepted")) {
+		if(status.equalsIgnoreCase("Accepted")) {
 			
 			cust.setLoanStatus("Sanctioned");
 		}else {
 			cust.setLoanStatus("Not Sanctioned");
 		}
 		rt.put("http://localhost:7777/apploan/upadtedata",cust);
-		sr.save(sl);
+		SanctionLetter so=sr.save(sl);
+		cust.setSanctionletter(so);
 		return cr.save(cust);
 	}
 
