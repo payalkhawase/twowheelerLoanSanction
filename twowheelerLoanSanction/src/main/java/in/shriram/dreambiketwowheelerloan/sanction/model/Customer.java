@@ -1,7 +1,5 @@
 package in.shriram.dreambiketwowheelerloan.sanction.model;
 
-
-
 import java.util.List;
 import java.util.Set;
 import jakarta.persistence.CascadeType;
@@ -24,7 +22,7 @@ public class Customer {
 	private String customerGender;
 	private String customerMobileNumber;
 	private double customerAdditionalMobileNumber;
-	private double customerAmountPaidForHome;
+	private double customerAmountPaidForBike;
 	private double customerTotalLoanRequired;
 	private String customerEmail;
 	private String password;
@@ -65,6 +63,6 @@ public class Customer {
 	private LoanDisbursement loandisburst;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	private Set<Ledger> led;
+	private List<Ledger> led;
 
 }

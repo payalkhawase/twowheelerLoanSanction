@@ -341,6 +341,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 				    // Store the entire EMI set (optional, modify class to support it)
 				    
 				    //THIS GIVES RECURRING MONTHLY EMI   (need to create field)
+			 
 //				    cDetails.setMonthlyEmiSet(monthlyEMISet); 
 
 				
@@ -374,6 +375,18 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		
 		cust.setLoanStatus(status);
 		
+		SanctionLetter sl=sr.findById(cust.getSanctionletter().getSanctionId()).get();
+		sl.setStatus(status);
+		
+		if(status.equalsIgnoreCase("Accepted")) {
+			
+			cust.setLoanStatus("Sanctioned");
+		}else {
+			cust.setLoanStatus("Not Sanctioned");
+		}
+		rt.put("http://localhost:7777/apploan/upadtedata",cust);
+		SanctionLetter so=sr.save(sl);
+		cust.setSanctionletter(so);
 		return cr.save(cust);
 	}
 
@@ -384,11 +397,12 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		return sr.findAllByStatus("Offered");
 	}
 
-	@Override
-	public SanctionLetter addSanction(Integer customerId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
+//	@Override
+//	public SanctionLetter addSanction(int customerId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 

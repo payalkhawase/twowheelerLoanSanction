@@ -5,15 +5,14 @@ import java.util.List;
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import java.util.List;
+
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 
 public interface SanctionServiceI {
 
 
 	public SanctionLetter generateSactionId(int customerId);
-
-
-	public SanctionLetter addSanction(Integer customerId);
 	
 	public List getSanctionList();
 
