@@ -7,5 +7,4 @@ import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
-
 }

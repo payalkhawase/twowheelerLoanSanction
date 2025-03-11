@@ -1,12 +1,7 @@
 package in.shriram.dreambiketwowheelerloan.sanction.model;
 
-
-
 import java.util.List;
 import java.util.Set;
-
-
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -32,14 +27,14 @@ public class Customer {
 	private String customerEmail;
 	private String password;
 	private String loanStatus="Submit";
+	private String sanctionStatus="Sanctioned";
 	private double onRoadPrice;
 	private int requiredTenure;
 	private String interesType="Compound Interest";
-	
 
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
-
 
 	@OneToOne(cascade = CascadeType.MERGE ,orphanRemoval = false)
 	@JoinColumn(name = "cibilId")

@@ -1,5 +1,14 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedHashSet;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import java.util.Date;
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -8,15 +17,14 @@ import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
 import com.lowagie.text.BadElementException;
 import com.lowagie.text.Document;
 import com.lowagie.text.Element;
@@ -30,7 +38,6 @@ import com.lowagie.text.pdf.CMYKColor;
 import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
-
 import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
@@ -40,7 +47,7 @@ import jakarta.mail.internet.MimeMessage;
 
 @Service
 public class SanctionServiceImpl implements SanctionServiceI{
-
+	
 	@Autowired
 	SanctionRepository sr;
 	
@@ -49,13 +56,66 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 	@Autowired
 	RestTemplate rt;
-	
+
 	@Autowired
 	JavaMailSender sender;
 	
 	@Value("${spring.mail.username}")
 	private String fromEmail;
 
+//	@Override
+//	public CustomerDetails addData(int cd) {
+//		
+//		CustomerDetails cust=new CustomerDetails();
+//		
+//		Customer e=rt.getForObject("http://desktop-13cev9m:7777/apploan/getCustomer/"+cd, Customer.class);
+//	
+//		cust.setDate(new Date());
+//		cust.setApplicantname(e.getCustomerName());
+//		cust.setContactdetails(e.getCustomerMobileNumber());
+//		cust.setOnRoadPrice(e.getOnRoadPrice());			
+//		cust.setInteresType(cust.getInteresType());	
+//		
+//		//SANCTIONED LOAN AMOUNT WILL BE 80% OF ON ROAD PRICE
+//		cust.setLoanAmountScantioned(0.8*e.getOnRoadPrice());	//Check input of onRoadPrice
+//		
+//		//LOGIC FOR RATE OF INTEREST
+//		if(e.getCibil().getCibilRemark()=="Good") {
+//			cust.setRateofInterest(10.2f);
+//		}
+//		else if(e.getCibil().getCibilRemark()=="Very Good") {
+//			cust.setRateofInterest(9.1f);
+//		}
+//		else if(e.getCibil().getCibilRemark()=="Excellent") {
+//			cust.setRateofInterest(7.9f);
+//		}
+//		
+//		//LOGIC FOR LOAN TENURE (IN MONTHS)
+//		if(e.getOnRoadPrice()>=50000) {
+//			cust.setLoanTenureMonth(12);
+//		}
+//		else if(e.getOnRoadPrice()>=100000) {
+//			cust.setLoanTenureMonth(24);
+//		}
+//		else if(e.getOnRoadPrice()>=150000) {
+//			cust.setLoanTenureMonth(36);
+//		}
+//		else {
+//			cust.setLoanTenureMonth(48);
+//		}
+//		
+//		//LOGIC FOR COMPOUND INTEREST CALCULATION
+//		int compoundingFrequency=12;
+//		double totalAmountPayable=cust.getLoanAmountScantioned()*Math.pow(1+(cust.getRateofInterest()/compoundingFrequency),
+//				compoundingFrequency*cust.getLoanTenureMonth());
+//		
+//		
+//		//LOGIC FOR EMI
+//		double emi=totalAmountPayable/cust.getLoanTenureMonth();
+//		
+//		return cust;
+//	}
+	
 	@Override
 	public SanctionLetter generateSactionId(int customerId) {
 		
@@ -303,10 +363,18 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 	@Override
+	public List<Customer> getAllCustomer(String loanStatus) {
+		
+		Customer co = rt.getForObject("http://localhost:7777/apploan/getaCustomer" +loanStatus, Customer.class);
+		
+		return  ((ListCrudRepository<Customer, Integer>) co).findAll();
+	}
+
 	public Customer updateSanctionStatus(int customerId, String status) {
 		
-		
 		Customer cust=rt.getForObject("http://localhost:7777/apploan/getaCustomer/"+customerId, Customer.class);
+		
+		cust.setLoanStatus(status);
 		
 		SanctionLetter sl=sr.findById(cust.getSanctionletter().getSanctionId()).get();
 		sl.setStatus(status);
@@ -326,14 +394,18 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	 
 	@Override
 	public List getSanctionList() {
-		
+
 		return sr.findAllByStatus("Offered");
 	}
 
-	
+
+//	@Override
+//	public SanctionLetter addSanction(int customerId) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
-	
 
 //	@Override
 //	public Customer updateSanctionStatus(int customerId, String status) {
@@ -343,13 +415,5 @@ public class SanctionServiceImpl implements SanctionServiceI{
 //		
 //		return sr.save(cust);
 //	}
-
-	
-
-	 
-	
-	
-	
-	
 
 }
