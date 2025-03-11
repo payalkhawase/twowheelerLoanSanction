@@ -1,14 +1,11 @@
 package in.shriram.dreambiketwowheelerloan.sanction.serviceimpl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashSet;
 
-import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +31,7 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+import in.shriram.dreambiketwowheelerloan.sanction.model.Customer;
 import in.shriram.dreambiketwowheelerloan.sanction.model.SanctionLetter;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.CustomerRepository;
 import in.shriram.dreambiketwowheelerloan.sanction.repository.SanctionRepository;
@@ -93,7 +91,7 @@ public class SanctionServiceImpl implements SanctionServiceI{
 
 		} catch (BadElementException e1) {
 			e1.printStackTrace();
-		} catch (IOException e1) {
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		
@@ -145,7 +143,6 @@ public class SanctionServiceImpl implements SanctionServiceI{
 		table.addCell(cell);
 
 		Date date = new Date();
-
 		sanction.setSanctionDate(date);;
 		cell.setPhrase(
 				new Phrase(String.valueOf(sanction.getSanctionDate()), font1));
