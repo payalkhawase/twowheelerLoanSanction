@@ -48,10 +48,10 @@ public class SanctionController {
 	@PostMapping("/addSanction/{customerId}")
 	public SanctionLetter addSanction(@PathVariable("customerId") int customerId)
 	{
-		//System.out.println(customerId);
-		
-		return ssi.addSanction(customerId);
-		
+		SanctionLetter al = ssi.addSanction(customerId);
+		ssi.generateSactionId(customerId);
+		return al;
+
 	}
 	
 	@GetMapping("/customer/{loanStatus}")
