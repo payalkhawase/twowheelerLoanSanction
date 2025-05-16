@@ -398,6 +398,14 @@ public class SanctionServiceImpl implements SanctionServiceI{
 	}
 
 
+	@Override
+	public List getSanctionListH() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+
 //	@Override
 //	public SanctionLetter addSanction(int customerId) {
 //		// TODO Auto-generated method stub
