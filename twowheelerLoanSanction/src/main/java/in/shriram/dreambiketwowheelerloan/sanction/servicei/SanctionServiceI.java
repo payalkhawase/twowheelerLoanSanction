@@ -23,5 +23,8 @@ public interface SanctionServiceI {
 	public Customer updateSanctionStatus(int customerId, String status);
 
 
+	public List getSanctionListH();
+
+
 
 }

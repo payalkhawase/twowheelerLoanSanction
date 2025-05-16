@@ -35,7 +35,7 @@ public class Customer {
 	private double onRoadPrice;
 	private int requiredTenure;
 	private String interesType="Compound Interest";
-	
+	private String  userType="CUSTOMER";
 
 	@OneToOne(cascade = CascadeType.ALL)
 	private SanctionLetter sanctionletter;
